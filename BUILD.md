@@ -56,14 +56,13 @@ From the project directory, build and stage the installable bundle:
 ./build-pw5.sh
 ```
 
-The finished package is in `package/`. It contains the KUAL extension under
-`extensions/moonlight/`, including the executable and shared libraries in its
-`bin/` directory, plus the Kindle library shortcut and installation notes.
-Zip the contents of `package/` to make a bundle for USB transfer:
+The finished package is in `package/`. The release ZIP contains only the
+installable KUAL extension, the Kindle library shortcut, and the GPL license;
+build and installation documents stay in the repository. Create it with:
 
 ```sh
 cd package
-zip -qr ../snipers-piss-moonshine-kindlehf.zip .
+zip -qr ../snipers-piss-moonshine-kindlehf.zip extensions documents LICENSE
 ```
 
 The build uses `/tmp/openh264-inspect`, `/tmp/openssl-1.0.2u`, and `/tmp/FBink`

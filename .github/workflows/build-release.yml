@@ -50,7 +50,8 @@ jobs:
       - name: Package release bundle
         run: |
           cd package
-          zip -qr "../snipers-piss-moonshine-${GITHUB_REF_NAME}-kindlehf.zip" .
+          zip -qr "../snipers-piss-moonshine-${GITHUB_REF_NAME}-kindlehf.zip" \
+            extensions documents LICENSE
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
