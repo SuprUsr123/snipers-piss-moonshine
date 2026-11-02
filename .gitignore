@@ -1,0 +1,9 @@
+/build-pw5/
+/build-koxt/
+/build-host-headers/
+/package/
+/embedded/build/
+/embedded/build-*/
+*.log
+*.log.old
+.DS_Store

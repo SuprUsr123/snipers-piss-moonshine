@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "name": "Sniper's Piss Moonshine",
+      "priority": 0,
+      "items": [
+        {
+          "name": "Start Sniper's Piss Moonshine",
+          "priority": 0,
+          "action": "sh /mnt/us/extensions/moonlight/bin/start-ui.sh",
+          "exitmenu": true
+        },
+        {
+          "name": "Stop Sniper's Piss Moonshine",
+          "priority": 1,
+          "action": "sh /mnt/us/extensions/moonlight/bin/stop.sh"
+        },
+        {
+          "name": "Save log to moonlight-log.txt",
+          "priority": 2,
+          "action": "sh /mnt/us/extensions/moonlight/bin/show-log.sh"
+        }
+      ]
+    }
+  ]
+}

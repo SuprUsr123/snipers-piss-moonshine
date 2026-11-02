@@ -1,0 +1,61 @@
+name: Kindle build
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake curl expat libcurl4-openssl-dev \
+            libexpat1-dev make perl uuid-dev zstd zip
+
+      - name: Install KOXT kindlehf toolchain
+        run: |
+          mkdir -p "$HOME/x-tools"
+          curl -fL https://github.com/koreader/koxtoolchain/releases/download/2026.08/kindlehf.tar.zst \
+            | tar --zstd -xf - -C "$HOME"
+
+      - name: Get build dependencies
+        run: |
+          git clone --depth 1 --branch v2.7.0 \
+            https://github.com/cisco/openh264.git /tmp/openh264-inspect
+          git clone --depth 1 --recurse-submodules \
+            https://github.com/NiLuJe/FBInk /tmp/FBink
+          curl -fL https://www.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz \
+            | tar -xz -C /tmp
+          cd /tmp/openssl-1.0.2u
+          ./Configure linux-armv4 no-shared
+
+      - name: Build Kindle package
+        run: ./build-pw5.sh
+
+      - name: Package release bundle
+        run: |
+          cd package
+          zip -qr "../snipers-piss-moonshine-${GITHUB_REF_NAME}-kindlehf.zip" .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snipers-piss-moonshine-kindlehf
+          path: snipers-piss-moonshine-*-kindlehf.zip
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: snipers-piss-moonshine-*-kindlehf.zip

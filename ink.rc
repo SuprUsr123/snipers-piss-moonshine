@@ -1,0 +1,35 @@
+# Optional e-ink style tweaks for the Moonlight Kindle client.
+#
+# This file is read AFTER the built-in style, from the folder launch.sh runs
+# in. Nothing here is required: every line below is an example, commented
+# out. Edit, save, relaunch; no rebuild needed. Use the ":highest" priority
+# on every rule so it beats both the built-in style and the Kindle theme.
+#
+# Widget names you can target (they are glob patterns on the widget path):
+#   *ink-button*   plain actions (Connect, Stream, Quit, keypad ...)
+#   *ink-toggle*   choices (app rows, Fast/Balanced/Quality, X11/FBink)
+#   *ink-marked*   the stream bar's Mode button (gray at rest)
+#   *ink-field*    the address box
+#
+# Outline weights (2 px light / 3 px heavy) and the two grays are compiled in
+# (kindle-style.h); everything else can be changed here.
+#
+# Lighter "selected" gray on choices:
+#   style "my-toggle" {
+#     bg[ACTIVE] = "#eeeeee"
+#     light[ACTIVE] = "#eeeeee"
+#     dark[ACTIVE] = "#eeeeee"
+#     mid[ACTIVE] = "#eeeeee"
+#   }
+#   widget "*ink-toggle*" style:highest "my-toggle"
+#
+# Darker text for disabled buttons:
+#   style "my-dim" {
+#     fg[INSENSITIVE] = "#555555"
+#     text[INSENSITIVE] = "#555555"
+#   }
+#   class "GtkWidget" style:highest "my-dim"
+#
+# More padding inside buttons:
+#   style "my-pad" { GtkButton::inner-border = { 12, 12, 10, 10 } }
+#   class "GtkButton" style:highest "my-pad"
