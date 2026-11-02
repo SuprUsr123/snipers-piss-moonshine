@@ -19,13 +19,19 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake curl expat libcurl4-openssl-dev \
-            libexpat1-dev make perl uuid-dev zstd zip
+            libexpat1-dev libarchive-dev make nettle-dev perl uuid-dev zlib1g-dev zstd zip
 
       - name: Install KOXT kindlehf toolchain
         run: |
           mkdir -p "$HOME/x-tools"
           curl -fL https://github.com/koreader/koxtoolchain/releases/download/2026.08/kindlehf.tar.zst \
             | tar --zstd -xf - -C "$HOME"
+
+      - name: Install Kindle SDK libraries
+        run: |
+          git clone --depth 1 --recurse-submodules \
+            https://github.com/KindleModding/kindle-sdk.git /tmp/kindle-sdk
+          bash /tmp/kindle-sdk/gen-sdk.sh kindlehf "$HOME/x-tools/arm-kindlehf-linux-gnueabihf"
 
       - name: Get build dependencies
         run: |

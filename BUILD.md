@@ -13,7 +13,7 @@ Ubuntu or Debian:
 ```sh
 sudo apt-get update
 sudo apt-get install -y build-essential cmake curl git libcurl4-openssl-dev \
-  libexpat1-dev make perl uuid-dev zstd
+  libarchive-dev libexpat1-dev make nettle-dev perl uuid-dev zlib1g-dev zstd
 ```
 
 Download and unpack the KOXT `kindlehf` toolchain under your home directory:
@@ -22,6 +22,18 @@ Download and unpack the KOXT `kindlehf` toolchain under your home directory:
 mkdir -p "$HOME/x-tools"
 curl -fL https://github.com/koreader/koxtoolchain/releases/download/2026.08/kindlehf.tar.zst \
   | tar --zstd -xf - -C "$HOME"
+```
+
+The build workflow installs the Kindle SDK over KOXT to supply GTK2 headers,
+libraries, and pkg-config metadata absent from the bare compiler archive. The
+SDK obtains its Kindle libraries from Amazon firmware packages; you do not need
+to dump or provide a device filesystem. Locally, install it after unpacking
+KOXT:
+
+```sh
+git clone --depth 1 --recurse-submodules \
+  https://github.com/KindleModding/kindle-sdk.git /tmp/kindle-sdk
+bash /tmp/kindle-sdk/gen-sdk.sh kindlehf "$HOME/x-tools/arm-kindlehf-linux-gnueabihf"
 ```
 
 Fetch the source dependencies. OpenSSL 1.0.2u is needed for compatibility
